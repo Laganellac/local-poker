@@ -1,4 +1,5 @@
 from os.path import join
+from typing import List
 import random
 import traceback
 
@@ -19,26 +20,15 @@ class HumanPlayer(Player):
         super().__init__(log_file_path=log_file_path, name=name)
 
 
-    def take_action(self, state, valid_actions) -> str:
-        print(state)
-        print(state.community_cards)
-        community_cards_str = Card.ints_to_pretty_str(state.community_cards)
-        print(community_cards_str)
-
-        prompt = f"""-- Game State --
-    Community Cards: {community_cards_str}
-    Pot Size: {state.pot}
-    Current Highest Bet to Match: {state.highest_bet}
-    Your Current Bet in this round: {self.current_bet}
-    Amount needed to Call: {state.highest_bet - self.current_bet}
-    Your Hand: {Card.ints_to_pretty_str(self.hand)}
-    Your Stack: {self.stack}
-
--- Decision --
+    def take_action(self, state: dict, valid_actions: List[str], history: str) -> str:
+        prompt = f"""<GameState>
+{self._state_str(state)}
+</GameState>
+<Decision>
     Valid Actions: {', '.join(valid_actions)}
+</Decision>
 
-Reply ONLY with your chosen action from the list of valid actions.
-    """
+Reply ONLY with your chosen action from the list of valid actions."""
         with open(self._log_file_path, "a") as f:
             f.write(f"Game State:\n{prompt}\n")
             print(prompt)

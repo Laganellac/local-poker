@@ -1,8 +1,6 @@
 from os.path import join
+from typing import List
 import random
-import traceback
-
-from openai import OpenAI
 
 from player import Player
 
@@ -14,11 +12,8 @@ class RandomPlayer(Player):
             name=d["name"],
         )
 
-
     def __init__(self, log_file_path: str, name: str):
         super().__init__(log_file_path=log_file_path, name=name)
 
-
-    def take_action(self, _: dict, valid_actions) -> str:
+    def take_action(self, state: dict, valid_actions: List[str], history: str) -> str:
         return random.choice(valid_actions)
-

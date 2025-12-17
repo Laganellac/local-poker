@@ -1,4 +1,5 @@
 from os.path import join
+from typing import List
 import random
 import traceback
 
@@ -36,26 +37,19 @@ class LlmPlayer(Player):
             api_key="lm-studio"
         )
 
-    def take_action(self, state, valid_actions) -> str:
-        community_cards_str = Card.ints_to_pretty_str(state.community_cards)
-        assert all(isinstance(c, int) for c in self.hand)
-        hand_str = Card.ints_to_pretty_str(self.hand)
-
+    def take_action(self, state: dict, valid_actions: List[str], history: str) -> str:
         system_prompt = self._system_prompt
-        prompt = f"""-- Game State --
-    Community Cards: {community_cards_str}
-    Pot Size: {state.pot}
-    Current Highest Bet to Match: {state.highest_bet}
-    Your Current Bet in this round: {self.current_bet}
-    Amount needed to Call: {state.highest_bet - self.current_bet}
-    Your Hand: {Card.ints_to_pretty_str(self.hand)}
-    Your Stack: {self.stack}
+        prompt = f"""<RoundHistory>
+{history}
+</RoundHistory>
+<GameState>
+{self._state_str(state)}
+</GameState>
+<Decision>
+Valid Actions: {', '.join(valid_actions)}
+</Decision>
 
--- Decision --
-    Valid Actions: {', '.join(valid_actions)}
-
-Reply ONLY with your chosen action from the list of valid actions.
-    """
+Reply ONLY with your chosen action from the list of valid actions."""
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt}
@@ -86,10 +80,12 @@ Reply ONLY with your chosen action from the list of valid actions.
                 response_text = ""
             response_text = response_text.strip()
             f.write(f"{self._name}:\n{response_text}\n\n")
+            # Skip the thinking block
             end_think_idx = response_text.find("</think>")
             if end_think_idx > -1:
                 response_text = response_text[end_think_idx+len("</think>"):].strip()
-            response_text = response_text.lower()
+            # NVIDIA model gets really confused about XML in the system prompt, just take the last word
+            response_text = response_text.split()[-1].strip().lower()
             f.write(f"DEBUG: Used '{response_text}'\n")
             if 'fold' in response_text:
                 return 'fold'

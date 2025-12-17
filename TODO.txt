@@ -1,3 +1,2 @@
-1. Fix the way the code handles "active" players
-2. Feed the action history into the prompt
+1. Big_Mike raised when we wasn't allowed to (['fold', 'call'] were his options) and it crashed the program
 3. Allow variable raises

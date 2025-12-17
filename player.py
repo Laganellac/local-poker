@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List
 
+from treys import Card
+
 class Player(ABC):
     def __init__(self, log_file_path: str, name: str):
         assert log_file_path is not None
@@ -16,11 +18,24 @@ class Player(ABC):
         self.current_bet = 0  # Amount bet in the current round
         self.is_all_in = False
 
+    def _state_str(self, state: dict):
+        return f"""Round: {state['round']}
+Community Cards: {Card.ints_to_pretty_str(state['community_cards'])}
+Pot Size: {state['pot']}
+Highest Bet to Match: {state['active_bet']}
+Your Current Bet in this round: {self.current_bet}
+Amount needed to call: {state['active_bet'] - self.current_bet}
+Amount needed to raise: {state['min_bet'] - self.current_bet}
+Remaining Opponents: {', '.join([p._name for p in state['remaining_players'] if p._name != self._name])}
+Your Hand: {Card.ints_to_pretty_str(self.hand)}
+Your Stack: {self.stack}"""
+
+    def can_take_action(self) -> bool:
+        return not self.is_folded and not self.is_all_in
 
     def log(self, message: str):
         with open(self._log_file_path, "a") as f:
             f.write(message)
-
 
     def reset_round(self):
         self.hand = []
@@ -29,5 +44,5 @@ class Player(ABC):
         self.is_all_in = False
 
     @abstractmethod
-    def take_action(self, state, valid_actions: List[str]) -> str:
+    def take_action(self, state: dict, valid_actions: List[str], history: str) -> str:
         pass
