@@ -45,11 +45,9 @@ class LlmPlayer(Player):
 <GameState>
 {self._state_str(state)}
 </GameState>
-<Decision>
-Valid Actions: {', '.join(valid_actions)}
-</Decision>
 
-Reply ONLY with your chosen action from the list of valid actions."""
+Reply with an explanation of your thought process ending with "/explanation" followed by a new line.
+After that, the last word of your response MUST BE one of the valid actions [{', '.join(valid_actions)}]"""
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt}
@@ -81,10 +79,9 @@ Reply ONLY with your chosen action from the list of valid actions."""
             response_text = response_text.strip()
             f.write(f"{self._name}:\n{response_text}\n\n")
             # Skip the thinking block
-            end_think_idx = response_text.find("</think>")
+            end_think_idx = response_text.find("/explanation")
             if end_think_idx > -1:
-                response_text = response_text[end_think_idx+len("</think>"):].strip()
-            # NVIDIA model gets really confused about XML in the system prompt, just take the last word
+                response_text = response_text[end_think_idx+len("/explanation"):].strip()
             response_text = response_text.split()[-1].strip().lower()
             f.write(f"DEBUG: Used '{response_text}'\n")
 

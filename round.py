@@ -1,5 +1,6 @@
 from typing import List
 import sys
+import time
 
 from treys import Card, Deck, Evaluator
 
@@ -57,15 +58,18 @@ class Round(object):
                 valid_actions.append("raise")
 
             # Have the user take an action
+            before_action = time.perf_counter()
             action = p.take_action(self._table_state_dict(active_bet, min_bet), valid_actions, self._history)
+            after_action = time.perf_counter()
             if action not in valid_actions:
                 raise RuntimeError(f"Unexpected action '{action}' not in valid actions {valid_actions}")
-
+            action_time_sec = float((after_action - before_action) * 1000) / 1000.0
+            self._history += f">>> {p._name} chooses to: {action.upper()} in {action_time_sec:.3f}s\n"
             # If there are any human players, censor the cards from the output
             if self._any_human_players:
-                print(f">>> {p._name} chooses to: {action.upper()}")
+                print(f">>> {p._name} chooses to: {action.upper()} in {action_time_sec:.3f}s")
             else:
-                print(f">>> {p._name} ({Card.ints_to_pretty_str(p.hand)}) chooses to: {action.upper()}")
+                print(f">>> {p._name} ({Card.ints_to_pretty_str(p.hand)}) chooses to: {action.upper()} in {action_time_sec:.3f}s")
 
             # Handle action
             if action == "fold":

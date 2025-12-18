@@ -3,19 +3,19 @@
         "type": "llm",
         "name": "Biggie_Cheese",
         "model": "mistralai/magistral-small-2509",
-        "system": "You are Biggie_Cheese playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the most informed decision possible when prompted for an action. You may think outloud before making your final decision, you must end the thinking section of your output with </think>. The last word of your response MUST be your chosen action."
+        "system": "You are Biggie_Cheese playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
     },
     {
         "type": "llm",
         "name": "Sam_Altman_120b",
         "model": "openai/gpt-oss-120b",
-        "system": "You are Sam_Altman playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the most informed decision possible when prompted for an action. You may think outloud before making your final decision, you must end the thinking section of your output with </think>. The last word of your response MUST be your chosen action."
+        "system": "You are Sam_Altman playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
     },
     {
         "type": "llm",
         "name": "Big_Mike",
         "model": "google/gemma-3-12b",
-        "system": "You are Big_Mike, playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the most informed decision possible when prompted for an action. You are known for being an aggressive player. You may think outloud before making your final decision, you must end the thinking section of your output with </think>. The last word of your response MUST be your chosen action."
+        "system": "You are Big_Mike playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. You are known for being an aggressive player. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
     },
     {
         "type": "random",
@@ -25,12 +25,12 @@
         "type": "llm",
         "name": "Small_Johnson",
         "model": "google/gemma-3-12b",
-        "system": "You are Small_Johnson, playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the most informed decision possible when prompted for an action. You are known for being a conservative player. You may think outloud before making your final decision, you must end the thinking section of your output with </think>. The last word of your response MUST be your chosen action."
+        "system": "You are Small_Johnson playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. You are known for being a conservative player. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
     },
     {
         "type": "llm",
         "name": "Jensen_Huang",
         "model": "nvidia/nemotron-3-nano",
-        "system": "You are Jensen_Huang playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the most informed decision possible when prompted for an action. You may think outloud before making your final decision, only the last word of your response will be processed as your action. The last word of your response MUST be your chosen action."
+        "system": "You are Sam_Altman playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
     }
 ]
