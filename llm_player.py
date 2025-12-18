@@ -87,14 +87,10 @@ Reply ONLY with your chosen action from the list of valid actions."""
             # NVIDIA model gets really confused about XML in the system prompt, just take the last word
             response_text = response_text.split()[-1].strip().lower()
             f.write(f"DEBUG: Used '{response_text}'\n")
-            if 'fold' in response_text:
-                return 'fold'
-            elif 'check' in response_text:
-                return 'check'
-            elif 'raise' in response_text:
-                return 'raise'
-            elif 'call' in response_text:
-                return 'call'
-            else:
-                f.write("WARNING: model didn't choose a valid option, just generating a random one")
+
+            # If it's not a valid option, just pick a random valid option
+            if response_text not in valid_actions:
+                f.write(f"WARNING: {self._name} chose '{response_text}' which is not a valid action ({valid_actions}), just generating a random one")
                 return random.choice(valid_actions)
+            assert response_text in valid_actions
+            return response_text

@@ -17,6 +17,7 @@ class Player(ABC):
         self.is_folded = False
         self.current_bet = 0  # Amount bet in the current round
         self.is_all_in = False
+        self._is_human = False
 
     def _state_str(self, state: dict):
         return f"""Round: {state['round']}
@@ -32,6 +33,9 @@ Your Stack: {self.stack}"""
 
     def can_take_action(self) -> bool:
         return not self.is_folded and not self.is_all_in
+
+    def is_human(self) -> bool:
+        return self._is_human
 
     def log(self, message: str):
         with open(self._log_file_path, "a") as f:

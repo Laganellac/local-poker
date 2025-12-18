@@ -5,6 +5,7 @@ from treys import Card, Deck, Evaluator
 
 from player import Player
 
+
 class Round(object):
     def __init__(
             self,
@@ -28,6 +29,8 @@ class Round(object):
         self._round = "Pre-Flop"
         self._small_blind = small_blind
         self._small_blind_idx = (dealer_position + 1) % len(active_players)
+
+        self._any_human_players = any(p.is_human() for p in self._active_players)
 
     def _betting_round(self, starting_idx: int, starting_bet: int):
         assert starting_idx < len(self._active_players)
@@ -57,9 +60,12 @@ class Round(object):
             action = p.take_action(self._table_state_dict(active_bet, min_bet), valid_actions, self._history)
             if action not in valid_actions:
                 raise RuntimeError(f"Unexpected action '{action}' not in valid actions {valid_actions}")
-            #print(f">>> {p._name} ({Card.ints_to_pretty_str(p.hand)}) chooses to: {action.upper()}")
-            print(f">>> {p._name} chooses to: {action.upper()}")
-            self._history += f">>> {p._name} chooses to: {action.lower()}\n"
+
+            # If there are any human players, censor the cards from the output
+            if self._any_human_players:
+                print(f">>> {p._name} chooses to: {action.upper()}")
+            else:
+                print(f">>> {p._name} ({Card.ints_to_pretty_str(p.hand)}) chooses to: {action.upper()}")
 
             # Handle action
             if action == "fold":

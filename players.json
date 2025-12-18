@@ -7,8 +7,8 @@
     },
     {
         "type": "llm",
-        "name": "Sam_Altman",
-        "model": "openai/gpt-oss-20b",
+        "name": "Sam_Altman_120b",
+        "model": "openai/gpt-oss-120b",
         "system": "You are Sam_Altman playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the most informed decision possible when prompted for an action. You may think outloud before making your final decision, you must end the thinking section of your output with </think>. The last word of your response MUST be your chosen action."
     },
     {

@@ -15,10 +15,9 @@ class HumanPlayer(Player):
             name=d["name"],
         )
 
-
     def __init__(self, log_file_path: str, name: str):
         super().__init__(log_file_path=log_file_path, name=name)
-
+        self._is_human = True
 
     def take_action(self, state: dict, valid_actions: List[str], history: str) -> str:
         prompt = f"""<GameState>
@@ -33,32 +32,16 @@ Reply ONLY with your chosen action from the list of valid actions."""
             f.write(f"Game State:\n{prompt}\n")
             print(prompt)
             response_text = None
-            try:
-                response_text = input(f"{self._name}'s action: ")
-            except Exception as _:
-                completion = None
-                f.write(f"ERROR: Failed to prompt human {traceback.format_exc()}\n")
-
-            # If it failed just randomly select an answer and return
-            if response_text is None:
-                f.write("WARNING: Failed to prompt human, just generating a random action\n")
-                return random.choice(valid_actions)
-
-            # Parse the response
-            response_text = response_text.strip()
-            f.write(f"{self._name}:\n{response_text}\n\n")
-            end_think_idx = response_text.find("</think>")
-            if end_think_idx > -1:
-                response_text = response_text[end_think_idx+len("</think>"):].strip()
+            while True:
+                response_text = ""
+                try:
+                    response_text = input(f"{self._name}'s action: ").strip().lower()
+                    if response_text in valid_actions:
+                        break
+                except Exception as _:
+                    f.write(f"ERROR: Failed to prompt human {traceback.format_exc()}\n")
+                    response_text = ""
+                print(f"ERROR: '{response_text}' is not a valid choice, try again")
+            assert response_text in valid_actions
             f.write(f"DEBUG: Used '{response_text}'\n")
-            if 'fold' in response_text:
-                return 'fold'
-            elif 'check' in response_text:
-                return 'check'
-            elif 'raise' in response_text:
-                return 'raise'
-            elif 'call' in response_text:
-                return 'call'
-            else:
-                f.write("WARNING: human didn't choose a valid option, just generating a random one")
-                return random.choice(valid_actions)
+            return response_text
