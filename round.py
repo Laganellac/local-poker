@@ -4,6 +4,7 @@ import time
 
 from treys import Card, Deck, Evaluator
 
+from action import Action
 from player import Player
 
 
@@ -48,14 +49,14 @@ class Round(object):
 
             # Determine the valid actions
             to_call = active_bet - p.current_bet
-            valid_actions = ["fold"]
+            valid_actions = [Action.FOLD]
             if to_call == 0:
-                valid_actions.append("check")
+                valid_actions.append(Action.CHECK)
             elif to_call > 0:
-                valid_actions.append("call")
+                valid_actions.append(Action.CALL)
 
             if p.current_bet + p.stack >= min_bet:
-                valid_actions.append("raise")
+                valid_actions.append(Action.RAISE)
 
             # Have the user take an action
             before_action = time.perf_counter()
@@ -72,15 +73,15 @@ class Round(object):
                 print(f">>> {p._name} ({Card.ints_to_pretty_str(p.hand)}) chooses to: {action.upper()} in {action_time_sec:.3f}s")
 
             # Handle action
-            if action == "fold":
+            if action == Action.FOLD:
                 p.is_folded = True
                 actions_taken += 1
                 # If there is only 1 non-folded player left, break out of the loop
                 if sum(1 for p in self._active_players if not p.is_folded) == 1:
                     break
-            elif action == "check":
+            elif action == Action.CHECK:
                 actions_taken += 1 
-            elif action == "raise":
+            elif action == Action.RAISE:
                 # Move the chips from the player's hand into the pot
                 to_raise = min_bet - p.current_bet
                 p.stack -= to_raise
@@ -90,11 +91,13 @@ class Round(object):
                 active_bet = min_bet
                 min_bet = active_bet * 2
                 actions_taken = 1
-            elif action == "call":
+            elif action == Action.CALL:
                 p.stack -= to_call
                 self._pot += to_call
                 p.current_bet += to_call
                 actions_taken += 1
+            else:
+                raise RuntimeError("Non-existant action taken")
 
             # Move the action around the table
             idx = (idx + 1) % len(self._active_players)

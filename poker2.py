@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import List
 import os
+import sys
 
 from treys import Card, Deck, Evaluator
 
@@ -59,13 +60,14 @@ class Poker(object):
 
 # --- Main Execution ---
 if __name__ == "__main__":
-    deck = Deck()
-    community_cards = deck.draw(5)
-    Card.ints_to_pretty_str(community_cards)
-
     log_directory = f"Game{str(datetime.now())}"
     os.mkdir(log_directory)
-    players: List[Player] = player_factory("players.json", log_directory)
+
+    players_file = "players.json"
+    if len(sys.argv) > 1:
+        players_file = sys.argv[1]
+
+    players: List[Player] = player_factory(players_file, log_directory)
     assert len(players) > 0
     assert len(players) == 6
     print(players)

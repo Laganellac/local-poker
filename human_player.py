@@ -5,6 +5,7 @@ import traceback
 
 from treys import Card
 
+from action import Action
 from player import Player
 
 class HumanPlayer(Player):
@@ -19,7 +20,7 @@ class HumanPlayer(Player):
         super().__init__(log_file_path=log_file_path, name=name)
         self._is_human = True
 
-    def take_action(self, state: dict, valid_actions: List[str], history: str) -> str:
+    def take_action(self, state: dict, valid_actions: List[Action], history: str) -> Action:
         prompt = f"""<GameState>
 {self._state_str(state)}
 </GameState>
@@ -44,4 +45,4 @@ Reply ONLY with your chosen action from the list of valid actions."""
                 print(f"ERROR: '{response_text}' is not a valid choice, try again")
             assert response_text in valid_actions
             f.write(f"DEBUG: Used '{response_text}'\n")
-            return response_text
+            return Action(response_text)

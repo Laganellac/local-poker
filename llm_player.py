@@ -6,6 +6,7 @@ import traceback
 from openai import OpenAI
 from treys import Card
 
+from action import Action
 from player import Player
 
 """You are {self._name} playing a game of virtual AI Texas Hold'em.
@@ -17,11 +18,17 @@ The last word of your response MUST be your chosen action.
 class LlmPlayer(Player):
     @staticmethod
     def from_dict(d: dict, log_dir: str):
+        system_prompt = d.get("system", "")
+        if len(system_prompt) == 0:
+            # If the system prompt wasn't defined directly, it's probably in a file
+            with open(d["systemFile"], "r") as f:
+                system_prompt = f.read()
+
         return LlmPlayer(
             log_file_path=f"{join(log_dir, d['name'])}.txt",
             name=d["name"],
             model=d["model"],
-            system_prompt=d["system"]
+            system_prompt=system_prompt
         )
 
     def __init__(self, log_file_path: str, name: str, model: str, system_prompt: str):
@@ -37,7 +44,7 @@ class LlmPlayer(Player):
             api_key="lm-studio"
         )
 
-    def take_action(self, state: dict, valid_actions: List[str], history: str) -> str:
+    def take_action(self, state: dict, valid_actions: List[Action], history: str) -> Action:
         system_prompt = self._system_prompt
         prompt = f"""<RoundHistory>
 {history}
@@ -82,7 +89,7 @@ After that, the last word of your response MUST BE one of the valid actions [{',
             end_think_idx = response_text.find("/explanation")
             if end_think_idx > -1:
                 response_text = response_text[end_think_idx+len("/explanation"):].strip()
-            response_text = response_text.split()[-1].strip().lower()
+            response_text = response_text.split()[-1].strip().upper()
             f.write(f"DEBUG: Used '{response_text}'\n")
 
             # If it's not a valid option, just pick a random valid option
@@ -90,4 +97,4 @@ After that, the last word of your response MUST BE one of the valid actions [{',
                 f.write(f"WARNING: {self._name} chose '{response_text}' which is not a valid action ({valid_actions}), just generating a random one")
                 return random.choice(valid_actions)
             assert response_text in valid_actions
-            return response_text
+            return Action(response_text)

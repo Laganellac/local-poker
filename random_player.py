@@ -2,6 +2,7 @@ from os.path import join
 from typing import List
 import random
 
+from action import Action
 from player import Player
 
 class RandomPlayer(Player):
@@ -15,5 +16,5 @@ class RandomPlayer(Player):
     def __init__(self, log_file_path: str, name: str):
         super().__init__(log_file_path=log_file_path, name=name)
 
-    def take_action(self, state: dict, valid_actions: List[str], history: str) -> str:
+    def take_action(self, state: dict, valid_actions: List[Action], history: str) -> Action:
         return random.choice(valid_actions)

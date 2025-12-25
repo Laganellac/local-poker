@@ -3,6 +3,8 @@ from typing import List
 
 from treys import Card
 
+from action import Action
+
 class Player(ABC):
     def __init__(self, log_file_path: str, name: str):
         assert log_file_path is not None
@@ -48,5 +50,5 @@ Your Stack: {self.stack}"""
         self.is_all_in = False
 
     @abstractmethod
-    def take_action(self, state: dict, valid_actions: List[str], history: str) -> str:
+    def take_action(self, state: dict, valid_actions: List[Action], history: str) -> Action:
         pass

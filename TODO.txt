@@ -1,2 +1,4 @@
-1. Big_Mike raised when we wasn't allowed to (['fold', 'call'] were his options) and it crashed the program
-3. Allow variable raises
+1. Implement all-ins, no player should be able to go negative with their bets or forced to fold
+2. Run on multiple machines
+3. Implement all-ins part 2, implement side-pots when players go all-in
+4. Allow variable raises
