@@ -13,9 +13,9 @@
     },
     {
         "type": "llm",
-        "name": "Big_Mike",
+        "name": "Big_Shark",
         "model": "google/gemma-3-12b",
-        "system": "You are Big_Mike playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. You are known for being an aggressive player. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
+        "system": "You are Big_Shark playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. You are known for being an aggressive player. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
     },
     {
         "type": "random",
@@ -23,14 +23,14 @@
     },
     {
         "type": "llm",
-        "name": "Small_Johnson",
+        "name": "Small_Fish",
         "model": "google/gemma-3-12b",
-        "system": "You are Small_Johnson playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. You are known for being a conservative player. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
+        "system": "You are Small_Fish playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. You are known for being a conservative player. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
     },
     {
         "type": "llm",
         "name": "Jensen_Huang",
         "model": "nvidia/nemotron-3-nano",
-        "system": "You are Sam_Altman playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
+        "system": "You are Jensen_Huang playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
     }
 ]

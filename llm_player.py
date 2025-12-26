@@ -1,9 +1,9 @@
 from os.path import join
-from typing import List
+from typing import List, Union
 import random
 import traceback
 
-from openai import OpenAI
+from openai import OpenAI, Omit, omit
 from treys import Card
 
 from action import Action
@@ -28,16 +28,21 @@ class LlmPlayer(Player):
             log_file_path=f"{join(log_dir, d['name'])}.txt",
             name=d["name"],
             model=d["model"],
-            system_prompt=system_prompt
+            system_prompt=system_prompt,
+            reasoning_effort=d.get("reasoningEffort", omit),
+            temperature=d.get("temperature", 0.7)
         )
 
-    def __init__(self, log_file_path: str, name: str, model: str, system_prompt: str):
+    def __init__(self, log_file_path: str, name: str, model: str, system_prompt: str, reasoning_effort: Union[Omit, str], temperature: float):
         super().__init__(log_file_path=log_file_path, name=name)
         assert model is not None
         assert isinstance(model, str)
+        assert isinstance(temperature, float)
 
         self._model = model
+        self._reasoning_effort = reasoning_effort
         self._system_prompt = system_prompt
+        self._temperature = temperature
 
         self._client = OpenAI(
             base_url="http://localhost:1234/v1",
@@ -67,7 +72,8 @@ After that, the last word of your response MUST BE one of the valid actions [{',
                 completion = self._client.chat.completions.create(
                     model=self._model,
                     messages=messages,
-                    temperature=0.7,
+                    reasoning_effort=self._reasoning_effort,
+                    temperature=self._temperature,
                     stream=False
                 )
             except Exception as _:
