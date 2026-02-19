@@ -1,21 +1,21 @@
 [
     {
         "type": "llm",
-        "name": "Biggie_Cheese",
-        "model": "mistralai/magistral-small-2509",
-        "system": "You are Biggie_Cheese playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
-    },
-    {
-        "type": "llm",
-        "name": "Sam_Altman_120b",
-        "model": "openai/gpt-oss-120b",
-        "system": "You are Sam_Altman playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
-    },
-    {
-        "type": "llm",
-        "name": "Big_Shark",
+        "name": "Freedom",
         "model": "google/gemma-3-12b",
-        "system": "You are Big_Shark playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. You are known for being an aggressive player. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
+        "systemFile": "./system-prompts/freedom.md"
+    },
+    {
+        "type": "llm",
+        "name": "Biggie_Cheese",
+        "model": "google/gemma-3-12b",
+        "systemFile": "./system-prompts/biggie_cheese.md"
+    },
+    {
+        "type": "llm",
+        "name": "Triple_Barrel",
+        "model": "google/gemma-3-12b",
+        "systemFile": "./system-prompts/simple_gemma3.md"
     },
     {
         "type": "random",
@@ -23,14 +23,16 @@
     },
     {
         "type": "llm",
-        "name": "Small_Fish",
+        "name": "Hard_Cap",
         "model": "google/gemma-3-12b",
-        "system": "You are Small_Fish playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. You are known for being a conservative player. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
+        "systemFile": "./system-prompts/hard_cap.md"
     },
     {
         "type": "llm",
-        "name": "Jensen_Huang",
-        "model": "nvidia/nemotron-3-nano",
-        "system": "You are Jensen_Huang playing a game of AI Texas Hold'em. Your goal is to win the most poker chips possible using logic and statistics to make the best decision when prompted for an action. Your response should include an explanation of your thought process ending with '/explanation' followed by a new line. The last word of your response MUST be your chosen action."
+        "name": "PokerStrategyExpert",
+        "model": "openai/gpt-oss-120b",
+        "systemFile": "./system-prompts/PokerStrategyExpert.md",
+        "reasoningEffort": "medium",
+        "temperature": 0.2
     }
 ]
